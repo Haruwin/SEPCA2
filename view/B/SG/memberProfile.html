@@ -33,6 +33,17 @@
                 if(member.sla == 1) {
                     document.getElementById("serviceLevelAgreement").checked = true;
                 }
+                
+                //set input boxes
+                document.getElementById("name").value = member.name
+                document.getElementById("email").value = member.email
+                document.getElementById("phone").value = member.phone
+                document.getElementById("country").value = member.city
+                document.getElementById("address").value = member.address
+                document.getElementById("securityAnswer").value = member.securityAnswer
+                document.getElementById("age").value = member.age
+                document.getElementById("income").value = member.income
+                //end of set input boxes
 
                 //Get Bought Items
                 fetch(new Request('/api/getBoughtItem/' + member.id,
@@ -70,13 +81,14 @@
                                 }
                             }
                         }
-                                         
-                            htmlTxt += '<h5>Order #' + (1) + '</h5>';
+                        //bug fix start
+                        for(i=0; i<orderIdList.length; i++){         
+                            htmlTxt += '<h5>Order #' + (i+1) + '</h5>';
                             var counter = 0;
                             //get bought items by order ID
                             for (j = 0; j < boughtItem.length; j++) {
                             
-                                if(boughtItem[j].id == orderIdList[0]) {
+                                if(boughtItem[j].id == orderIdList[i]) {
                                     var item = boughtItem[j];
                                     //display top level info
                                     if(counter == 0) {
@@ -119,7 +131,7 @@
                                                             <tbody>';
                             for (y = 0; y < boughtItem.length; y++) {
                             
-                                if (boughtItem[y].id == orderIdList[0]) {
+                                if (boughtItem[y].id == orderIdList[i]) {
                                     var product = boughtItem[y];
                                     htmlTxt += '\
                                         <tr class="cart_table_item">\
@@ -162,7 +174,7 @@
                                     </div>\
                                 </div>';
                             finalPrice = 0;
-
+                        }
                         htmlTxt += '<h4 style="font-weight: bold; padding-left: 20px">Total Amount Spent: $'+ overallPrice + '</h4>';
                         document.getElementById("salesHistoryTab").innerHTML = htmlTxt;
                     }
@@ -240,7 +252,8 @@
 
                     if(ok) {
                         var data = {
-                            email: document.getElementById("email").value,
+                            //email: document.getElementById("email").value,
+                            email: JSON.parse(sessionStorage.getItem("member")).email,
                             name: document.getElementById("name").value,
                             phone: document.getElementById("phone").value,
                             country: document.getElementById("country").value,
