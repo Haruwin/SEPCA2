@@ -251,7 +251,8 @@
 
                     if(ok) {
                         var data = {
-                            email: document.getElementById("email").value,
+                            //email: document.getElementById("email").value,
+                            email: JSON.parse(sessionStorage.getItem("member")).email,
                             name: document.getElementById("name").value,
                             phone: document.getElementById("phone").value,
                             country: document.getElementById("country").value,
